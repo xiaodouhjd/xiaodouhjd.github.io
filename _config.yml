@@ -88,4 +88,4 @@ feed:
 deploy:
   type: git
   repo: git@github.com:xiaodouhjd/xiaodouhjd.github.io.git
-  branch: page
+  branch: master
