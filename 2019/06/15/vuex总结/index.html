@@ -1,0 +1,335 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=http://yoursite.com/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+<meta http-equiv="X-DNS-Prefetch-Control" content="on">
+<link rel="dns-prefetch" href="http://yoursite.com">
+<link rel="dns-prefetch" href="//www.google-analytics.com">
+<link rel="prefetch" href="http://yoursite.com">
+<link rel="prefetch" href="//www.google-analytics.com">
+
+
+<link rel="prerender" href="http://yoursite.com">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=http://yoursite.com">
+<meta name="author" content="Jindou Hou">
+<link rel="stylesheet" href="/css/JSimple.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>vuex总结 - 小豆的博客</title>
+
+<meta name="keywords" content>
+
+<meta name="description " content="js">
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                processEscapes: true
+            }
+        });
+    </script>
+
+
+    
+
+    
+
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="说个鸡儿">说个鸡儿</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>Home</span></a>
+        <a href="/archives" title="Archives"><i class="fa fa-archives"></i><span>Archives</span></a>
+        <a href="/tags" title="Tags"><i class="fa fa-tags"></i><span>Tags</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">说前端</h1>
+        <h3 class="cover-siteTitle">用代码摇滚这个世界</h3>
+        <p class="cover-siteDesc">一个关注技术与人文的IT博客</p>
+        <div class="cover-sns">
+            
+    &nbsp;&nbsp;<div class="btn btn-telegram">
+        <a href="http://t.me/kunyintang" target="_blank" title="telegram" ref="friend">
+            <i class="fa fa-telegram"></i>
+        </a>
+    </div>
+
+    &nbsp;&nbsp;<div class="btn btn-instagram">
+        <a href="https://www.instagram.com/mtangsir/" target="_blank" title="instagram" ref="friend">
+            <i class="fa fa-instagram"></i>
+        </a>
+    </div>
+
+    &nbsp;&nbsp;<div class="btn btn-twitter">
+        <a href="https://twitter.com/tangkunyin" target="_blank" title="twitter" ref="friend">
+            <i class="fa fa-twitter"></i>
+        </a>
+    </div>
+
+    &nbsp;&nbsp;<div class="btn btn-github">
+        <a href="https://github.com/tangkunyin" target="_blank" title="github" ref="friend">
+            <i class="fa fa-github"></i>
+        </a>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+            <div class="page-title">
+    <ul>
+        <li><a href="/">Recent Posts</a></li>
+        
+        
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="click to search...">
+        <button type="button" disabled="disabled" class="search-form-submit"><i class="fa fa-search"></i></button>
+    </form>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://shuoit.net" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar">
+                </a>
+                <p><span class="label">Author</span>
+                    <a href="https://shuoit.net" target="_blank">小豆</a>
+                    <span title="Last edited at&nbsp;2019-06-15">2019-06-15</span>
+                </p>
+                <p>一个搬🧱的劳斯基😁️️</p>
+            </div>
+            <h2 class="post-title">vuex总结</h2>
+            <div class="post-meta">
+                emm... 3864 words in the article |
+                you are the&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>th friend who reading now
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h1 id="vuex"><a href="#vuex" class="headerlink" title="vuex"></a>vuex</h1><h3 id="什么时候需要使用-vuex"><a href="#什么时候需要使用-vuex" class="headerlink" title="什么时候需要使用 vuex"></a>什么时候需要使用 vuex</h3><ol>
+<li>当你不知道该不该用的时候，那就是不该用。（你自会知道什么时候需要用到它）</li>
+<li>组件之间通信很复杂的情况下</li>
+<li>项目中使用了路由，并且路由页面组件中需要通信的时候，</li>
+<li>项目写着写着头发一大把掉的时候。</li>
+</ol>
+<h3 id="vuex的操作流程"><a href="#vuex的操作流程" class="headerlink" title="vuex的操作流程"></a>vuex的操作流程</h3><ol>
+<li>先要有仓库，将我们项目中组件上需要共享的数据放置到我们 仓库中 state 的位置。</li>
+<li>组件要使用 仓库 中 state 的数据，就从仓库里面拿出来用。</li>
+<li>要修改仓库中 state 的数据，<ol>
+<li>commit(提交) mutation</li>
+<li>dispath(派发) action    -&gt; commit mutation</li>
+</ol>
+</li>
+<li>然后仓库中 state 数据发生变化，组件就会得到更新</li>
+</ol>
+<h3 id="vuex-的使用"><a href="#vuex-的使用" class="headerlink" title="vuex 的使用"></a>vuex 的使用</h3><ol>
+<li><p>安装 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vuex `npm install --save vuex`</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>项目中 src/store/index.js 文件中创建仓库的实例对象</p>
+</li>
+<li><p>要 main.js new Vue 的地方配置一个 store 的选项。选项的值就是 2 中 仓库实例对象</p>
+<ol>
+<li><p>引入 vue</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>引入 vuex</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用 vuex</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Vue.use(Vuex)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建 仓库的实例对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line"> state: &#123;</span><br><span class="line"> title: &apos;hello-world&apos;</span><br><span class="line">&#125;,</span><br><span class="line">getters: &#123;</span><br><span class="line">// key - getter 的名字</span><br><span class="line"> // value - 值 函数，要有 return</span><br><span class="line"> // key: value</span><br><span class="line">&#125;,</span><br><span class="line">mutations: &#123;</span><br><span class="line"> // key - mutation 的名字</span><br><span class="line"> // value - 函数 接收到 state</span><br><span class="line"> // key: value</span><br><span class="line">&#125;,</span><br><span class="line">actions: &#123;</span><br><span class="line">&#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>暴露 store</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default store;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="State"><a href="#State" class="headerlink" title="State"></a>State</h2><h3 id="对象展开运算符"><a href="#对象展开运算符" class="headerlink" title="对象展开运算符"></a>对象展开运算符</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">    localComputed () &#123;&#125;,</span><br><span class="line">  ...mapState(&#123;&#125;)</span><br><span class="line">&#125;</span><br><span class="line">也可以使用`...mapState([])`,但前提是映射的计算属性的名称与state的子节点名称相同，如果state在vuex的modules中，则不成功。</span><br></pre></td></tr></table></figure>
+<h3 id="mapState-辅助函数"><a href="#mapState-辅助函数" class="headerlink" title="mapState 辅助函数"></a>mapState 辅助函数</h3><p>四种用法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">computed: mapState(&#123;</span><br><span class="line">    // 箭头函数可使代码更简练</span><br><span class="line">    count: state =&gt; state.count,</span><br><span class="line"></span><br><span class="line">    // 传字符串参数 &apos;count&apos; 等同于 `state =&gt; state.count`</span><br><span class="line">    countAlias: &apos;count&apos;,</span><br><span class="line"></span><br><span class="line">    // 为了能够使用 `this` 获取局部状态，必须使用常规函数</span><br><span class="line">    countPlusLocalState (state) &#123;</span><br><span class="line">      return state.count + this.localCount</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">computed: mapState([</span><br><span class="line">  // 映射 this.count 为 store.state.count</span><br><span class="line">  &apos;count&apos;])</span><br></pre></td></tr></table></figure>
+<h3 id="如何将仓库中的数据拿到组件中去使用"><a href="#如何将仓库中的数据拿到组件中去使用" class="headerlink" title="如何将仓库中的数据拿到组件中去使用"></a>如何将仓库中的数据拿到组件中去使用</h3><p>this.$store 就是仓库的实例对象</p>
+<ol>
+<li>直接使用 this.$store 的方式在组件 template 模板中使用 （不推荐）</li>
+<li><p>组件中使用 计算属性 去拿 仓库的数据</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  title () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.$store.state.title</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>借助 vuex 提供的辅助函数 mapState<br>mapState([])  - 组件的computed 的 key 必须要跟仓库中 state 里面某个key 相同<br>mapState({})  - 组件的computed 的 key 可以自定义。</p>
+</li>
+<li><p>将 mapState 与 组件自身的 computed 结合 （推荐）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  ...mapState([<span class="string">'title'</span>]),</span><br><span class="line">  firstName () &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.name.split(<span class="string">''</span>)[<span class="number">0</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="Getter"><a href="#Getter" class="headerlink" title="Getter"></a>Getter</h2><p>mapGetters<br>mapGetters将store中的getter映射到局部计算属性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  ...mapGetters([</span><br><span class="line">    &apos;oneGetter&apos;,</span><br><span class="line">    &apos;anotherGetter&apos;</span><br><span class="line">  ])，</span><br><span class="line">  ...mapGetters(&apos;命名空间的模块名&apos;,[ &apos;oneGetter&apos;, &apos;anotherGetter&apos; ])//第二个获取这个名字的数据</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h2><p>更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。<br>每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。</p>
+<h3 id="mapMutations"><a href="#mapMutations" class="headerlink" title="mapMutations"></a>mapMutations</h3><p>使用mapMutations辅助函数将组件中的methods映射为store.commit调用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">  // 将this.tips映射成 this.$store.commit(&apos;tips&apos;)</span><br><span class="line">  ...mapMutations([&apos;tips&apos;])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="提交载荷（Payload）"><a href="#提交载荷（Payload）" class="headerlink" title="提交载荷（Payload）"></a>提交载荷（Payload）</h3><p>你可以向 store.commit 传入额外的参数，即 mutation 的 载荷（payload）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">mutations: &#123;</span><br><span class="line">  increment (state, payload) &#123;</span><br><span class="line">    state.count += payload.amount</span><br><span class="line">  &#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//第一个是方法名，第二个是参数</span><br><span class="line">store.commit(&apos;increment&apos;, &#123;</span><br><span class="line">  amount: 10&#125;)</span><br></pre></td></tr></table></figure>
+<p>提交 mutation 的另一种方式是直接使用包含 type 属性的对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">store.commit(&#123;</span><br><span class="line">  type: &apos;increment&apos;,</span><br><span class="line">  amount: 10&#125;)</span><br></pre></td></tr></table></figure></p>
+<p><strong>使用常量替代 Mutation 事件类型,<br>一条重要的原则就是要记住 mutation 必须是同步函数</strong></p>
+<h3 id="如何修改仓库中的数据"><a href="#如何修改仓库中的数据" class="headerlink" title="如何修改仓库中的数据"></a>如何修改仓库中的数据</h3><ol>
+<li>先需要在仓库中定义我们的mutation</li>
+<li>在组件中提交这个mutaion<ol>
+<li>this.$store.commit(‘mutaion的名字’, 要传递的参数)</li>
+<li>this.$store.commit({<br>type: mutaion的名字,<br>其余的参数<br>})</li>
+<li>mapMutations 辅助函数</li>
+</ol>
+</li>
+<li>mutation不允许异步代码的<h2 id="actions"><a href="#actions" class="headerlink" title="actions"></a>actions</h2></li>
+</ol>
+<h3 id="mapAction"><a href="#mapAction" class="headerlink" title="mapAction"></a>mapAction</h3><p>使用mapActions辅助函数将组件的methods映射成store.dispatch调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//第一个是命名空间的名字，模块名，第二个触发的方法名</span><br><span class="line">//当项目只有一个模块时</span><br><span class="line">methods: &#123;</span><br><span class="line">  // 将this.tips映射成 this.$store.dispatch(&apos;tips&apos;)</span><br><span class="line">  ...mapActions(&apos;tips&apos;,[&apos;tips&apos;])</span><br><span class="line">  ...mapActions([&apos;tips&apos;])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="如何写异步代码在仓库中-actions"><a href="#如何写异步代码在仓库中-actions" class="headerlink" title="如何写异步代码在仓库中 actions"></a>如何写异步代码在仓库中 actions</h3><ol>
+<li>每一个action里面都可以写异步代码，但是action并不能修改state中的数据，真正修改数据的还是 mutaction</li>
+<li>在组件中如何派发这个action<ol>
+<li>this.$store.dispatch(‘action的名字’)</li>
+<li>mapActions 辅助函数</li>
+</ol>
+</li>
+</ol>
+<h3 id="vuex-分析图："><a href="#vuex-分析图：" class="headerlink" title="vuex 分析图："></a>vuex 分析图：</h3><p><img src="/2019/06/15/vuex总结/1.jpg" alt="1"></p>
+<h3 id="10-命名空间"><a href="#10-命名空间" class="headerlink" title="10-命名空间"></a>10-命名空间</h3><h5 id="为什么推荐大家在做-vuex-moduels-每个模块都加上-命令空间呢"><a href="#为什么推荐大家在做-vuex-moduels-每个模块都加上-命令空间呢" class="headerlink" title="为什么推荐大家在做 vuex moduels 每个模块都加上 命令空间呢"></a>为什么推荐大家在做 vuex moduels 每个模块都加上 命令空间呢</h5><ol>
+<li>操作方便<ol>
+<li>mapState([‘todos’])     根仓库上拿toods</li>
+<li>mapState(‘todo’, [‘todos’])   // this.$store.state.todo.todos</li>
+<li>mapGetters(‘todo’, [‘todos’]) // this.$store.getters.todo.todos</li>
+</ol>
+</li>
+</ol>
+<h4 id="如果-不带命名空间会造成什么影响"><a href="#如果-不带命名空间会造成什么影响" class="headerlink" title="如果 不带命名空间会造成什么影响"></a>如果 不带命名空间会造成什么影响</h4><ol>
+<li>getters 是全局的, 如果在多个模块中有重名的 getter 会报错</li>
+<li>mutations， actions 有重名的话，会都被执行</li>
+</ol>
+<p>最后还有一个看官网</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> Donate
+            </a>
+        </div>
+        
+        <div class="post-tags">Tags：
+            
+            <a href="/tags/vuex/">vuex</a>
+            
+        </div>
+        
+    </article>
+    
+    <p style="text-align: center">This article just represents my own viewpoint. If there is something wrong, please correct me.</p>
+    
+    
+
+    
+
+</div>
+<script src="/js/busuanzi.pure.mini.js"></script>
+
+
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner" style="text-align: center">
+        <p>
+            <a href="/about" title="About">About</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="Help">Help</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="Links">Links</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/sitemap.xml" title="SiteMap">SiteMap</a>
+        </p>
+        <p>
+            Has been established&nbsp<a href="/timeline" id="siteBuildingTime"></a>&nbspDays，<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="licence">Based on Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)</a><br>
+            ©2017-<span id="cpYear"></span> Based on&nbsp<a href="http://hexo.io" target="_blank" rel="nofollow">Hexo</a>
+            ，Theme by&nbsp&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="bookmark">JSimple</a>
+            ，Author&nbsp<a href="https://shuoit.net" target="_blank" rel="friend">小豆</a>
+            ，Hosted by <a href="https://pages.github.com/" target="_blank" rel="nofollow">GitHub Pages</a>
+        </p>
+    </div>
+</footer>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<!-- search pop -->
+<div class="popup search-popup local-search-popup">
+    <div class="local-search-header clearfix">
+        <span class="search-icon">
+            <i class="fa fa-search"></i>
+        </span>
+        <span class="popup-btn-close">
+            <i class="fa fa-times-circle"></i>
+        </span>
+        <div class="local-search-input-wrapper">
+            <input id="local-search-input" spellcheck="false" type="text" autocomplete="off" placeholder="Input query keywords here...">
+        </div>
+    </div>
+    <div id="local-search-result"></div>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        var jsi_config = {
+            buildingTime: '01/20/2018',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+            localSearch: { dbPath: '' },
+            readMode: 'day'
+        };
+        
+            jsi_config.localSearch = {
+                dbPath: '/search.xml',
+                trigger: 'auto',
+                topN: '1',
+                unescape: 'false'
+            }
+        
+        SimpleCore.init(jsi_config);
+        
+    });
+</script>
+</body>
+</html>

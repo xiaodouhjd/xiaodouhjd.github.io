@@ -24,7 +24,7 @@
 <link rel="shortcut icon" href="/images/favicon.png">
 
 
-<title>yourdiy - 小豆的博客</title>
+<title>vue反向代理 - 小豆的博客</title>
 
 <meta name="keywords" content>
 
@@ -113,6 +113,9 @@
             <div class="page-title">
     <ul>
         <li><a href="/">Recent Posts</a></li>
+        
+        
+        
         <li class="page-search">
     <form id="search" class="search-form">
         <input type="text" readonly="readonly" id="local-search-input-tip" placeholder="click to search...">
@@ -131,18 +134,37 @@
                 </a>
                 <p><span class="label">Author</span>
                     <a href="https://shuoit.net" target="_blank">小豆</a>
-                    <span title="Last edited at&nbsp;2019-05-16">2019-05-16</span>
+                    <span title="Last edited at&nbsp;2019-06-15">2019-06-15</span>
                 </p>
                 <p>一个搬🧱的劳斯基😁️️</p>
             </div>
-            <h2 class="post-title">yourdiy</h2>
+            <h2 class="post-title">vue反向代理</h2>
             <div class="post-meta">
-                emm... 0 words in the article |
+                emm... 1890 words in the article |
                 you are the&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>th friend who reading now
             </div>
         </div>
         <div class="post-content markdown-body">
-            
+            <h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>A - C - B</p>
+<p>前端代码的访问地址 - <a href="http://118.89.203.190/maizuo" target="_blank" rel="noopener">http://118.89.203.190/maizuo</a><br>后端接口的方位地址 - <a href="http://118.89.203.190:8080" target="_blank" rel="noopener">http://118.89.203.190:8080</a></p>
+<p>同一台服务器 使用反向代理（nginx) </p>
+<p><a href="http://118.89.203.190/maizuo" target="_blank" rel="noopener">http://118.89.203.190/maizuo</a> -&gt; <a href="http://118.89.203.190" target="_blank" rel="noopener">http://118.89.203.190</a> -&gt; <a href="http://118.89.203.190:8080" target="_blank" rel="noopener">http://118.89.203.190:8080</a></p>
+<h3 id="目前我们的vue项目的情况"><a href="#目前我们的vue项目的情况" class="headerlink" title="目前我们的vue项目的情况"></a>目前我们的vue项目的情况</h3><p><a href="http://118.89.203.190/maizuo" target="_blank" rel="noopener">http://118.89.203.190/maizuo</a> -&gt;<br><a href="http://118.89.203.190/mg/lovev/miguMovie/data/seeFilmData.jsp" target="_blank" rel="noopener">http://118.89.203.190/mg/lovev/miguMovie/data/seeFilmData.jsp</a> -&gt;<br>D <a href="http://118.89.203.190:9090/mg/lovev/miguMovie/data/seeFilmData.jsp" target="_blank" rel="noopener">http://118.89.203.190:9090/mg/lovev/miguMovie/data/seeFilmData.jsp</a> -&gt;<br><a href="http://movie.miguvideo.com/lovev/miguMovie/data/seeFilmData.jsp" target="_blank" rel="noopener">http://movie.miguvideo.com/lovev/miguMovie/data/seeFilmData.jsp</a></p>
+<p>? C - B 需要使用nginx反向代理，但是 c - B是不同的两个服务器的服务，nginx是没办法直接去代理的, 它只能是，把同一台服务器上的 80的服务代理到其他的端口服务 （80 -&gt; 9090）</p>
+<p>这时，我们需要在自己的服务器上启动一个 9090 的nodejs服务</p>
+<ol>
+<li>安装 nodejs </li>
+<li><p>启动一个后台的服务，服务监听的端口是 9090 （express）<br> 2.0 在 你自己的电脑上吧 express 项目写好<br> 创建一个server.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const proxy = require(&apos;http-proxy-middleware&apos;);</span><br><span class="line">const app = express();</span><br><span class="line"></span><br><span class="line">app.get(&apos;/&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  res.send(&apos;hello world, 我是一个nodejs服务&apos;);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// http://118.89.203.190:9090/mg/lovev/miguMovie/data/seeFilmData.jsp -&gt; http://movie.miguvideo.com/lovev/miguMovie/data/seeFilmData.jsp</span><br><span class="line">app.use(&apos;/mg&apos;, proxy(&#123;</span><br><span class="line">  target: &apos;http://movie.miguvideo.com&apos;,</span><br><span class="line">  changeOrigin: true, // 主动修改 请求头的 origin ，以防止有些服务对它的限制</span><br><span class="line">  pathRewrite: &#123;</span><br><span class="line">    &apos;^/mg&apos;: &apos;&apos;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;))</span><br><span class="line"></span><br><span class="line">app.listen(9090)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>express 这个项目，要将 9090 的地址转发到真实的服务器上，需要使用 http-proxy-middleware 这个模块<br> 3.1 npm install –save http-proxy-middleware<br> 3.2 对 9090 上某个请求做转发</p>
+</li>
+<li>express 这个项目代理配置成功之后，将 node_models 给删除掉再上传到服务器的 /root 目录下</li>
+<li>到 服务的 这个express 项目 npm install 。然后启动它<br> 5.1 为了让 这个后台项目长久运行正常，我们需要守护他的进程<br> 5.2 npm install -g pm2</li>
+<li>接下来，完成 80 -&gt; 9090 服务的反向代理处理<br> 6.1 找到 nginx 配置文件所在的路径  /etc/nginx/conf.d/default.conf<br> 6.2 先不要着急去修改这个文件，可以先备份一下。(确保，你已经在 /etc/nginx/conf.d)<pre><code>cp default.conf default.conf.bak
+</code></pre> 6.3 去修改 default.conf (推荐吧这个文件传到本地电脑上来改，改完之后再上传回去)<br> 6.4 测试 nginx 配置文件是否有明确的问题  <code>nginx -t</code><br> 6.5 重启 nginx   <code>nginx -s reload</code><br> 6.6 测试</li>
+</ol>
+
         </div>
         <div class="post-tool">
             <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
@@ -150,7 +172,15 @@
             </a>
         </div>
         
+        <div class="post-tags">Tags：
+            
+            <a href="/tags/vue反向代理/">vue反向代理</a>
+            
+        </div>
+        
     </article>
+    
+    <p style="text-align: center">This article just represents my own viewpoint. If there is something wrong, please correct me.</p>
     
     
 
@@ -163,7 +193,7 @@
         </div><!-- end #main-->
     </div><!-- end #body -->
     <footer class="footer">
-    <div class="footer-inner" style="text-align: left">
+    <div class="footer-inner" style="text-align: center">
         <p>
             <a href="/about" title="About">About</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
             <!-- 自定义链接 -->
